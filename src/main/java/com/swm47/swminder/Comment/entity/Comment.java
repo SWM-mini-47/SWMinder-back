@@ -1,2 +1,2 @@
-package com.swm47.swminder.Content.entity;public class Content {
+package com.swm47.swminder.Comment.entity;public class Comment {
 }
