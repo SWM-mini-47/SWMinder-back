@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -23,18 +27,21 @@ public class SecurityConfig {
     public static BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .httpBasic().and()
                 .csrf().disable()// 비활성화하면 POST signUp 정상 요청 (
                 .authorizeRequests()
                 .antMatchers("/signUp").permitAll() // 설정한 리소스의 접근을 인증절차 없이 허용
                 .anyRequest().authenticated() // 그 외 모든 리소스를 의미하며 인증 필요
                 .and()
                 .formLogin()
+                .defaultSuccessUrl("/home", true)
                 .permitAll()
                 .loginPage("/login") // 기본 로그인 페이지
+                .usernameParameter("loginId")
+                .passwordParameter("password")
                 .and()
                 .logout()
                 .permitAll()
@@ -47,7 +54,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());

@@ -43,9 +43,14 @@ public class Member {
     @CollectionTable(joinColumns = @JoinColumn(name = "member_id"))
     private List<String> skills = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Board> boards = new ArrayList<>();
+
+    public void deleteBoard(Board board) {
+        boards.remove(board);
+        board.setMember(null);
+    }
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @Builder.Default
