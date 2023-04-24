@@ -3,6 +3,7 @@ package com.swm47.swminder.Board.service;
 import com.swm47.swminder.Board.BoardRepository;
 import com.swm47.swminder.Board.entity.Board;
 import com.swm47.swminder.Board.entity.BoardDTO;
+import com.swm47.swminder.Comment.entity.Comment;
 import com.swm47.swminder.Member.entity.Member;
 import com.swm47.swminder.Member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,23 +28,23 @@ public class BoardService {
     @Transactional
     public Long saveBoard(BoardDTO boardDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        Optional<Member> result = memberRepository.findByLoginId(username);
+        String loginId = authentication.getName();
+        Optional<Member> result = memberRepository.findByLoginId(loginId);
         Member member = result.get();
         Board savedBoard = boardRepository.save(boardDTO.ToEntity());
         savedBoard.addMember(member);
         return savedBoard.getBoardId();
     }
+
     public List<BoardDTO> getBoardList() {
         List<Board> boards = boardRepository.findAll();
         List<BoardDTO> boardDTOs = new ArrayList<>();
         boards.stream().forEach(board -> {
-            BoardDTO boardDTO = BoardDTO.builder()
-                    .title(board.getTitle())
-                    .content(board.getContent())
-                    .author(board.getAuthor())
-                    .createdDate(board.getCreatedDate())
-                    .build();
+            BoardDTO boardDTO = board.toDTO();
+            List<Comment> comments = board.getComments();
+            comments.forEach(comment -> {
+                boardDTO.getComments().add(comment.toDTO());
+            });
 
             boardDTOs.add(boardDTO);
         });
@@ -54,12 +55,14 @@ public class BoardService {
         Optional<Board> res = boardRepository.findById(id);
         Board board = res.get();
 
-        return BoardDTO.builder()
-                .title(board.getTitle())
-                .content(board.getContent())
-                .author(board.getAuthor())
-                .createdDate(board.getCreatedDate())
-                .build();
+        BoardDTO boardDTO = board.toDTO();
+
+        List<Comment> comments = board.getComments();
+        comments.forEach(comment -> {
+            boardDTO.getComments().add(comment.toDTO());
+        });
+
+        return boardDTO;
     }
     @Transactional
     public void deleteBoard(Long id) {
@@ -72,12 +75,13 @@ public class BoardService {
         Board board = res.get();
 
         member.deleteBoard(board);
+        board.getComments().clear();
 
         boardRepository.deleteById(id);
     }
 
     @Transactional
-    public void update(Long id, BoardDTO boardDTO) {
+    public void updateBoard(Long id, BoardDTO boardDTO) {
         Optional<Board> res = boardRepository.findById(id);
         Board board = res.get();
         board.updateBoard(boardDTO.getTitle(), board.getContent());
