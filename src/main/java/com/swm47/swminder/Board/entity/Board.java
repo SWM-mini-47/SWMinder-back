@@ -38,6 +38,16 @@ public class Board {
     @Setter
     private Member member;
 
+    public BoardDTO toDTO() {
+        return BoardDTO.builder()
+                .boardId(boardId)
+                .title(title)
+                .content(content)
+                .author(author)
+                .createdDate(createdDate)
+                .build();
+    }
+
     public void addMember(Member member) {
         this.member = member;
         member.getBoards().add(this);
@@ -47,7 +57,12 @@ public class Board {
         this.content = content;
     }
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", orphanRemoval = true)
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
+    public void deleteComment(Comment comment) {
+        comment.setBoard(null);
+        comments.remove(comment);
+    }
 }
