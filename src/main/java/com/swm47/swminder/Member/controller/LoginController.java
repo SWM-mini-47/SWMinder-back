@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final MemberService memberService;
-
     @GetMapping("/login")
     public ResponseEntity<String> login() {
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
+    // Post login -> Spring Security
 
     @GetMapping("/signUp")
     public ResponseEntity<String> signUp() {
