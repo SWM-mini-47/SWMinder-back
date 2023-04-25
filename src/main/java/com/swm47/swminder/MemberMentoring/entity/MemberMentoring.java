@@ -36,4 +36,10 @@ public class MemberMentoring {
         mentoring.getMemberMentorings().add(this);
     }
 
+    public static MemberMentoring createMemberMentoring(Member member, Mentoring mentoring) {
+        MemberMentoring memberMentoring = new MemberMentoring();
+        memberMentoring.member = member;
+        memberMentoring.mentoring = mentoring;
+        return memberMentoring;
+    }
 }

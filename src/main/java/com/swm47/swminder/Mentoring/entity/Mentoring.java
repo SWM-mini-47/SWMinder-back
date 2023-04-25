@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -57,4 +58,13 @@ public class Mentoring {
     @OneToMany(mappedBy = "mentoring", fetch = FetchType.LAZY)
     @Builder.Default
     private List<MemberMentoring> memberMentorings = new ArrayList<>();
+
+    public void addMemberMentoring(MemberMentoring memberMentoring) {
+        memberMentorings.add(memberMentoring);
+        joinCount = memberMentorings.size();
+    }
+
+    public void removeMemberMentoring(MemberMentoring memberMentoring) {
+        memberMentorings.remove(memberMentoring);
+    }
 }
