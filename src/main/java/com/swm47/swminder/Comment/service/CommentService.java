@@ -5,6 +5,8 @@ import com.swm47.swminder.Board.entity.Board;
 import com.swm47.swminder.Comment.CommentRepository;
 import com.swm47.swminder.Comment.entity.Comment;
 import com.swm47.swminder.Comment.entity.CommentDTO;
+import com.swm47.swminder.Meetup.entity.Meetup;
+import com.swm47.swminder.Meetup.repository.MeetupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +23,23 @@ public class CommentService {
 
     private final BoardRepository boardRepository;
 
+    private final MeetupRepository meetupRepository;
+
     @Transactional
-    public Long saveComment(Long boardId, CommentDTO commentDTO) {
+    public Long saveBoardComment(Long boardId, CommentDTO commentDTO) {
         Comment savedComment = commentRepository.save(commentDTO.toEntity());
         Optional<Board> res = boardRepository.findById(boardId);
         Board board = res.get();
         savedComment.addBoard(board);
+        return savedComment.getCommentId();
+    }
+
+    @Transactional
+    public Long saveMeetupComment(Long meetupId, CommentDTO commentDTO) {
+        Comment savedComment = commentRepository.save(commentDTO.toEntity());
+        Optional<Meetup> res = meetupRepository.findById(meetupId);
+        Meetup meetup = res.get();
+        savedComment.addMeetup(meetup);
         return savedComment.getCommentId();
     }
 
@@ -38,12 +51,23 @@ public class CommentService {
     }
 
     @Transactional
-    public void deleteComment(Long boardId, Long id) {
+    public void deleteBoardComment(Long boardId, Long id) {
         Optional<Board> resBoard = boardRepository.findById(boardId);
         Board board = resBoard.get();
         Optional<Comment> resComment = commentRepository.findById(id);
         Comment comment = resComment.get();
         board.deleteComment(comment);
+
+        commentRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteMeetupComment(Long meetupId, Long id) {
+        Optional<Meetup> resMeetup = meetupRepository.findById(meetupId);
+        Meetup meetup = resMeetup.get();
+        Optional<Comment> resComment = commentRepository.findById(id);
+        Comment comment = resComment.get();
+        meetup.deleteComment(comment);
 
         commentRepository.deleteById(id);
     }

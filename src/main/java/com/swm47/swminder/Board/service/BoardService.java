@@ -51,6 +51,7 @@ public class BoardService {
 
         return boardDTOs;
     }
+
     public BoardDTO getBoard(Long id) {
         Optional<Board> res = boardRepository.findById(id);
         Board board = res.get();
@@ -64,6 +65,7 @@ public class BoardService {
 
         return boardDTO;
     }
+
     @Transactional
     public void deleteBoard(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -85,5 +87,27 @@ public class BoardService {
         Optional<Board> res = boardRepository.findById(id);
         Board board = res.get();
         board.updateBoard(boardDTO.getTitle(), boardDTO.getContent());
+    }
+
+    public List<BoardDTO> getBoardsYearAndMonth(Long year, Long month) {
+        List<Board> boards = boardRepository.findByYearAndMonth(year, month);
+        List<BoardDTO> boardDTOs = new ArrayList<>();
+        boards.forEach(board -> {
+            BoardDTO boardDTO = board.toDTO();
+            boardDTOs.add(boardDTO);
+        });
+
+        return boardDTOs;
+    }
+
+    public List<BoardDTO> getBoardsYearAndMonthAndDay(Long year, Long month, Long day) {
+        List<Board> boards = boardRepository.findByYearAndMonthAndDay(year, month, day);
+        List<BoardDTO> boardDTOs = new ArrayList<>();
+        boards.forEach(board -> {
+            BoardDTO boardDTO = board.toDTO();
+            boardDTOs.add(boardDTO);
+        });
+
+        return boardDTOs;
     }
 }
