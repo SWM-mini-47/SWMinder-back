@@ -84,8 +84,4 @@ public class MeetupController {
         memberMeetupService.deleteMeetup(memberId, meetupId);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
-    @GetMapping("/save")
-    public ResponseEntity<String> saveComment() {
-        return new ResponseEntity<>("OK" , HttpStatus.OK);
-    }
 }
