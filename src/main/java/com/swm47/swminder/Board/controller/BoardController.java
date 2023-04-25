@@ -84,19 +84,4 @@ public class BoardController {
         commentService.deleteBoardComment(boardId, id);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
-
-    @GetMapping("/{year}/{month}")
-    public ResponseEntity<List<BoardDTO>> getBoardDTO(@PathVariable("year") Long year,
-                                                      @PathVariable("month") Long month) {
-        List<BoardDTO> boardDTOs = boardService.getBoardsYearAndMonth(year, month);
-        return new ResponseEntity<>(boardDTOs, HttpStatus.OK);
-    }
-
-    @GetMapping("/{year}/{month}/{day}")
-    public ResponseEntity<List<BoardDTO>> getBoardDTO(@PathVariable("year") Long year,
-                                                      @PathVariable("month") Long month,
-                                                      @PathVariable("day") Long day) {
-        List<BoardDTO> boardDTOs = boardService.getBoardsYearAndMonthAndDay(year, month, day);
-        return new ResponseEntity<>(boardDTOs, HttpStatus.OK);
-    }
 }
