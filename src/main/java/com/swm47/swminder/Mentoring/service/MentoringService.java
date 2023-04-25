@@ -1,11 +1,17 @@
 package com.swm47.swminder.Mentoring.service;
 
+import com.swm47.swminder.Meetup.entity.Meetup;
+import com.swm47.swminder.Meetup.entity.MeetupDTO;
 import com.swm47.swminder.Mentoring.entity.Mentoring;
+import com.swm47.swminder.Mentoring.entity.MentoringDTO;
 import com.swm47.swminder.Mentoring.repository.MentoringRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,4 +33,27 @@ public class MentoringService {
         }
         return foundMentoring.getMentoringId();
     }
+
+    public List<MentoringDTO> getMeetupsYearAndMonth(Long year, Long month) {
+        List<Mentoring> mentorings = mentoringRepository.findByYearAndMonth(year, month);
+        List<MentoringDTO> mentoringDTOs = new ArrayList<>();
+        mentorings.forEach(mentoring -> {
+            MentoringDTO mentoringDTO = mentoring.toDTO();
+            mentoringDTOs.add(mentoringDTO);
+        });
+
+        return mentoringDTOs;
+    }
+
+    public List<MentoringDTO> getMeetupsYearAndMonthAndDay(Long year, Long month, Long day) {
+        List<Mentoring> mentorings = mentoringRepository.findByYearAndMonthAndDay(year, month, day);
+        List<MentoringDTO> mentoringDTOs = new ArrayList<>();
+        mentorings.forEach(mentoring -> {
+            MentoringDTO mentoringDTO = mentoring.toDTO();
+            mentoringDTOs.add(mentoringDTO);
+        });
+
+        return mentoringDTOs;
+    }
+
 }

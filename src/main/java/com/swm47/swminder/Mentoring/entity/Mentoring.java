@@ -40,6 +40,19 @@ public class Mentoring {
 
     private int qustnrSn;
 
+    public MentoringDTO toDTO() {
+        return MentoringDTO.builder()
+                .mentoringId(mentoringId)
+                .title(title)
+                .category(category)
+                .author(author)
+                .createdDate(createdDate)
+                .startTime(startTime)
+                .endTime(endTime)
+                .applyStartTime(applyStartTime)
+                .applyEndTime(applyEndTime)
+                .build();
+    }
     public void overwrite(Mentoring mentoring) {
         title = mentoring.getTitle();
         category = mentoring.getCategory();
