@@ -55,7 +55,7 @@ public class BoardController {
     @PostMapping("/{id}/save")
     public ResponseEntity<Long> saveComment(@PathVariable("id") Long id,
                                             @RequestBody CommentDTO commentDTO) {
-        return new ResponseEntity<>(commentService.saveComment(id, commentDTO),
+        return new ResponseEntity<>(commentService.saveBoardComment(id, commentDTO),
                 HttpStatus.OK);
     }
 
@@ -81,7 +81,22 @@ public class BoardController {
     @DeleteMapping("/{boardId}/delete/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable("boardId") Long boardId,
                                                 @PathVariable("id") Long id) {
-        commentService.deleteComment(boardId, id);
+        commentService.deleteBoardComment(boardId, id);
         return new ResponseEntity<>("OK", HttpStatus.OK);
+    }
+
+    @GetMapping("/{year}/{month}")
+    public ResponseEntity<List<BoardDTO>> getBoardDTO(@PathVariable("year") Long year,
+                                                      @PathVariable("month") Long month) {
+        List<BoardDTO> boardDTOs = boardService.getBoardsYearAndMonth(year, month);
+        return new ResponseEntity<>(boardDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/{year}/{month}/{day}")
+    public ResponseEntity<List<BoardDTO>> getBoardDTO(@PathVariable("year") Long year,
+                                                      @PathVariable("month") Long month,
+                                                      @PathVariable("day") Long day) {
+        List<BoardDTO> boardDTOs = boardService.getBoardsYearAndMonthAndDay(year, month, day);
+        return new ResponseEntity<>(boardDTOs, HttpStatus.OK);
     }
 }

@@ -1,15 +1,16 @@
-package com.swm47.swminder.MemberMeetup.controller;
+package com.swm47.swminder.Meetup.controller;
 
+import com.swm47.swminder.Comment.entity.Comment;
+import com.swm47.swminder.Comment.entity.CommentDTO;
+import com.swm47.swminder.Comment.service.CommentService;
 import com.swm47.swminder.Meetup.entity.MeetupDTO;
 import com.swm47.swminder.Meetup.service.MeetupService;
 import com.swm47.swminder.Member.entity.MemberDTO;
 import com.swm47.swminder.Member.service.MemberService;
 import com.swm47.swminder.MemberMeetup.service.MemberMeetupService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +18,13 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/meetup")
-@Slf4j
-public class MemberMeetupController {
-
-    private final MemberService memberService;
+public class MeetupController {
 
     private final MeetupService meetupService;
+
+    private final CommentService commentService;
+
+    private final MemberService memberService;
 
     private final MemberMeetupService memberMeetupService;
 
@@ -40,12 +42,19 @@ public class MemberMeetupController {
         return new ResponseEntity<>(meetupDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/list/{id}/save")
+    @PostMapping("/list/{id}/save/member")
     public ResponseEntity<Long> saveMember(@PathVariable("id") Long meetupId) {
         MemberDTO memberDTO = memberService.findMember();
         Long memberId = memberDTO.getMemberId();
         Long memberMeetupId = memberMeetupService.saveMemberMeetup(memberId, meetupId);
         return new ResponseEntity<>(memberMeetupId, HttpStatus.OK);
+    }
+
+    @PostMapping("/list/{id}/save/comment")
+    public ResponseEntity<Long> saveComment(@PathVariable("id") Long meetupId,
+                                            @RequestBody CommentDTO commentDTO) {
+        Long Id = commentService.saveMeetupComment(meetupId, commentDTO);
+        return new ResponseEntity<>(Id, HttpStatus.OK);
     }
 
     @GetMapping("/save")
@@ -74,5 +83,9 @@ public class MemberMeetupController {
         Long memberId = memberDTO.getMemberId();
         memberMeetupService.deleteMeetup(memberId, meetupId);
         return new ResponseEntity<>("OK", HttpStatus.OK);
+    }
+    @GetMapping("/save")
+    public ResponseEntity<String> saveComment() {
+        return new ResponseEntity<>("OK" , HttpStatus.OK);
     }
 }
