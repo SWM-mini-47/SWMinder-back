@@ -8,3 +8,10 @@ spring:
     url: jdbc:mysql://localhost:3306/swminder # TODO: future, jasypt...
     username: root
     password:
+
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
