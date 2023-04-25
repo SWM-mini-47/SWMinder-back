@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.ArrayList;
-=======
 
 import java.util.List;
 
@@ -58,10 +57,10 @@ public class MentoringService {
         });
 
         return mentoringDTOs;
+    }
         
     public List<Mentoring> findAll() {
         return (List<Mentoring>) mentoringRepository.findAll();
-
     }
 
 }
