@@ -10,7 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.ArrayList;
+=======
+
 import java.util.List;
 
 @Service
@@ -34,6 +37,7 @@ public class MentoringService {
         return foundMentoring.getMentoringId();
     }
 
+
     public List<MentoringDTO> getMeetupsYearAndMonth(Long year, Long month) {
         List<Mentoring> mentorings = mentoringRepository.findByYearAndMonth(year, month);
         List<MentoringDTO> mentoringDTOs = new ArrayList<>();
@@ -54,6 +58,10 @@ public class MentoringService {
         });
 
         return mentoringDTOs;
+        
+    public List<Mentoring> findAll() {
+        return (List<Mentoring>) mentoringRepository.findAll();
+
     }
 
 }
