@@ -225,7 +225,6 @@ public class MentoringCrawler {
                             int joinCount = Integer.parseInt(applyInfoSplit[0].trim());
                             int limitCount = Integer.parseInt(applyInfoSplit[1].trim());
 
-                            // category is what?
                             // content
                             Mentoring mentoring = Mentoring.builder()
                                     .title(title)
@@ -238,6 +237,7 @@ public class MentoringCrawler {
                                     .qustnrSn(qustnrSn)
                                     .applyStartTime(applyStartTime)
                                     .applyEndTime(applyEndTime)
+                                    .category("MENTORING")
                                     .build();
                             mentoringService.upsert(mentoring);
                         }

@@ -46,6 +46,7 @@ public class Mentoring {
         author = mentoring.getAuthor();
         createdDate = mentoring.getCreatedDate();
         startTime = mentoring.getStartTime();
+        endTime = mentoring.getEndTime();
         applyStartTime = mentoring.getApplyStartTime();
         applyEndTime = mentoring.getApplyEndTime();
         joinCount = mentoring.getJoinCount();
