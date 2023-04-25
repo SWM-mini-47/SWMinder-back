@@ -3,13 +3,14 @@ package com.swm47.swminder.Member.entity;
 import com.swm47.swminder.Board.entity.Board;
 import com.swm47.swminder.MemberMeetup.entity.MemberMeetup;
 import com.swm47.swminder.MemberMentoring.entity.MemberMentoring;
+import com.swm47.swminder.Mentoring.entity.Mentoring;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -78,5 +79,13 @@ public class Member {
     public void deleteMemberMeetup(MemberMeetup memberMeetup) {
         memberMeetups.remove(memberMeetup);
         memberMeetup.setMember(null);
+    }
+
+    public void addMemberMentoring(MemberMentoring memberMentoring) {
+        memberMentorings.add(memberMentoring);
+    }
+
+    public void removeMemberMentoring(MemberMentoring memberMentoring) {
+        memberMentorings.remove(memberMentoring);
     }
 }
