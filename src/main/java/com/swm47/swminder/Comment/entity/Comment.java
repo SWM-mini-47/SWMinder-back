@@ -51,6 +51,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEETUP_ID")
+    @Setter
     private Meetup meetup;
 
     public void addMeetup(Meetup meetup) {

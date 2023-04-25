@@ -66,6 +66,11 @@ public class Meetup {
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
+    public void deleteComment(Comment comment) {
+        comments.remove(comment);
+        comment.setMeetup(null);
+    }
+
     @OneToMany(mappedBy = "meetup", fetch = FetchType.LAZY)
     @Builder.Default
     private List<MemberMeetup> memberMeetups = new ArrayList<>();
