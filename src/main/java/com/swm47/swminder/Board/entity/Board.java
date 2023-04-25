@@ -47,7 +47,6 @@ public class Board {
                 .createdDate(createdDate)
                 .build();
     }
-
     public void addMember(Member member) {
         this.member = member;
         member.getBoards().add(this);

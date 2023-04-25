@@ -6,6 +6,7 @@ import com.swm47.swminder.MemberMentoring.entity.MemberMentoring;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,13 +31,27 @@ public class Member {
 
     private String contact;
 
-    private Date birth;
+    private LocalDateTime birth;
 
     private String email;
 
     private String address;
 
     private String education;
+    public MemberDTO toDTO() {
+        return MemberDTO.builder()
+                .memberId(memberId)
+                .username(username)
+                .loginId(loginId)
+                .password(password)
+                .profileImage(profileImage)
+                .contact(contact)
+                .birth(birth)
+                .email(email)
+                .address(address)
+                .education(education)
+                .build();
+    }
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
@@ -59,4 +74,9 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @Builder.Default
     private List<MemberMeetup> memberMeetups = new ArrayList<>();
+
+    public void deleteMemberMeetup(MemberMeetup memberMeetup) {
+        memberMeetups.remove(memberMeetup);
+        memberMeetup.setMember(null);
+    }
 }
