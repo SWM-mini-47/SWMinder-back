@@ -10,10 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -33,7 +29,7 @@ public class SecurityConfig {
                 .httpBasic().and()
                 .csrf().disable()// 비활성화하면 POST signUp 정상 요청 (
                 .authorizeRequests()
-                .antMatchers("/signUp").permitAll() // 설정한 리소스의 접근을 인증절차 없이 허용
+                .antMatchers("/signUp", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // 설정한 리소스의 접근을 인증절차 없이 허용
                 .anyRequest().authenticated() // 그 외 모든 리소스를 의미하며 인증 필요
                 .and()
                 .formLogin()
