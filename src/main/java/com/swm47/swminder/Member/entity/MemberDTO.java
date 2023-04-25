@@ -1,16 +1,19 @@
 package com.swm47.swminder.Member.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
+
+    private Long memberId;
 
     private String username;
 
@@ -22,7 +25,7 @@ public class MemberDTO {
 
     private String contact;
 
-    private Date birth;
+    private LocalDateTime birth;
 
     private String email;
 
