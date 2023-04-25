@@ -84,6 +84,6 @@ public class BoardService {
     public void updateBoard(Long id, BoardDTO boardDTO) {
         Optional<Board> res = boardRepository.findById(id);
         Board board = res.get();
-        board.updateBoard(boardDTO.getTitle(), board.getContent());
+        board.updateBoard(boardDTO.getTitle(), boardDTO.getContent());
     }
 }
