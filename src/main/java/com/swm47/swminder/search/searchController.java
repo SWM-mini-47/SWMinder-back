@@ -31,49 +31,45 @@ public class searchController {
     private final MentoringService mentoringService;
 
     @GetMapping("/{year}/{month}")
-    public ResponseEntity<List<SearchDTO>> getBoardDTO(@PathVariable("year") Long year,
+    public ResponseEntity<SearchDTO> getBoardDTO(@PathVariable("year") Long year,
                                                        @PathVariable("month") Long month) {
-        List<SearchDTO> searchDTOs = new ArrayList<>();
+        SearchDTO searchDTO = new SearchDTO();
         List<BoardDTO> boardDTOs = boardService.getBoardsYearAndMonth(year, month);
         List<MeetupDTO> meetupDTOs = meetupService.getMeetupsYearAndMonth(year, month);
         List<MentoringDTO> mentoringDTOs = mentoringService.getMeetupsYearAndMonth(year, month);
         boardDTOs.forEach(boardDTO -> {
-            SearchDTO searchDTO = new SearchDTO("board", boardDTO.getTitle());
-            searchDTOs.add(searchDTO);
+            searchDTO.board.add(boardDTO.getTitle());
         });
         meetupDTOs.forEach(meetupDTO -> {
-            SearchDTO searchDTO = new SearchDTO("meetup", meetupDTO.getTitle());
-            searchDTOs.add(searchDTO);
+            searchDTO.meetup.add(meetupDTO.getTitle());
         });
         mentoringDTOs.forEach(mentoringDTO -> {
-            SearchDTO searchDTO = new SearchDTO("mentoring", mentoringDTO.getTitle());
-            searchDTOs.add(searchDTO);
+            searchDTO.mentoring.add(mentoringDTO.getTitle());
         });
 
-        return new ResponseEntity<>(searchDTOs, HttpStatus.OK);
+        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{year}/{month}/{day}")
-    public ResponseEntity<?> getBoardDTO(@PathVariable("year") Long year,
+    public ResponseEntity<SearchDetailDTO> getBoardDTO(@PathVariable("year") Long year,
                                                       @PathVariable("month") Long month,
                                                       @PathVariable("day") Long day) {
-        List<SearchDTO> searchDTOs = new ArrayList<>();
+        SearchDetailDTO searchDetailDTO = new SearchDetailDTO();
+
         List<BoardDTO> boardDTOs = boardService.getBoardsYearAndMonthAndDay(year, month, day);
         List<MeetupDTO> meetupDTOs = meetupService.getMeetupsYearAndMonthAndDay(year, month, day);
         List<MentoringDTO> mentoringDTOs = mentoringService.getMeetupsYearAndMonthAndDay(year, month, day);
         boardDTOs.forEach(boardDTO -> {
-            SearchDTO searchDTO = new SearchDTO("board", boardDTO);
-            searchDTOs.add(searchDTO);
+            searchDetailDTO.board.add(boardDTO);
         });
         meetupDTOs.forEach(meetupDTO -> {
-            SearchDTO searchDTO = new SearchDTO("meetup", meetupDTO);
-            searchDTOs.add(searchDTO);
+            searchDetailDTO.meetup.add(meetupDTO);
         });
         mentoringDTOs.forEach(mentoringDTO -> {
-            SearchDTO searchDTO = new SearchDTO("mentoring", mentoringDTO);
-            searchDTOs.add(searchDTO);
+            searchDetailDTO.mentoring.add(mentoringDTO);
         });
 
-        return new ResponseEntity<>(searchDTOs, HttpStatus.OK);
+
+        return new ResponseEntity<>(searchDetailDTO, HttpStatus.OK);
     }
 }

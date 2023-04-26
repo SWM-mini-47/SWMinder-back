@@ -10,11 +10,10 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Data
-public class SearchDTO {
-    List<String> board = new ArrayList<>();
-    List<String> meetup = new ArrayList<>();
-    List<String> mentoring = new ArrayList<>();
+public class SearchDetailDTO {
+    List<BoardDTO> board = new ArrayList<>();
+    List<MeetupDTO> meetup = new ArrayList<>();
+    List<MentoringDTO> mentoring = new ArrayList<>();
 }
