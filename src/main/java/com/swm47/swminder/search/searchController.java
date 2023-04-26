@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.nio.channels.MulticastChannel;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,43 +31,49 @@ public class searchController {
     private final MentoringService mentoringService;
 
     @GetMapping("/{year}/{month}")
-    public ResponseEntity<Map<String, String>> getBoardDTO(@PathVariable("year") Long year,
-                                                                        @PathVariable("month") Long month) {
-        Map<String, String> result = new HashMap<>();
+    public ResponseEntity<List<SearchDTO>> getBoardDTO(@PathVariable("year") Long year,
+                                                       @PathVariable("month") Long month) {
+        List<SearchDTO> searchDTOs = new ArrayList<>();
         List<BoardDTO> boardDTOs = boardService.getBoardsYearAndMonth(year, month);
         List<MeetupDTO> meetupDTOs = meetupService.getMeetupsYearAndMonth(year, month);
         List<MentoringDTO> mentoringDTOs = mentoringService.getMeetupsYearAndMonth(year, month);
         boardDTOs.forEach(boardDTO -> {
-            result.put("board", boardDTO.getTitle());
+            SearchDTO searchDTO = new SearchDTO("board", boardDTO.getTitle());
+            searchDTOs.add(searchDTO);
         });
         meetupDTOs.forEach(meetupDTO -> {
-            result.put("meetup", meetupDTO.getTitle());
+            SearchDTO searchDTO = new SearchDTO("meetup", meetupDTO.getTitle());
+            searchDTOs.add(searchDTO);
         });
         mentoringDTOs.forEach(mentoringDTO -> {
-            result.put("mentoring", mentoringDTO.getTitle());
+            SearchDTO searchDTO = new SearchDTO("mentoring", mentoringDTO.getTitle());
+            searchDTOs.add(searchDTO);
         });
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(searchDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{year}/{month}/{day}")
     public ResponseEntity<?> getBoardDTO(@PathVariable("year") Long year,
                                                       @PathVariable("month") Long month,
                                                       @PathVariable("day") Long day) {
-        Map<String, String> result = new HashMap<>();
+        List<SearchDTO> searchDTOs = new ArrayList<>();
         List<BoardDTO> boardDTOs = boardService.getBoardsYearAndMonthAndDay(year, month, day);
         List<MeetupDTO> meetupDTOs = meetupService.getMeetupsYearAndMonthAndDay(year, month, day);
         List<MentoringDTO> mentoringDTOs = mentoringService.getMeetupsYearAndMonthAndDay(year, month, day);
         boardDTOs.forEach(boardDTO -> {
-            result.put("board", boardDTO.getTitle());
+            SearchDTO searchDTO = new SearchDTO("board", boardDTO);
+            searchDTOs.add(searchDTO);
         });
         meetupDTOs.forEach(meetupDTO -> {
-            result.put("meetup", meetupDTO.getTitle());
+            SearchDTO searchDTO = new SearchDTO("meetup", meetupDTO);
+            searchDTOs.add(searchDTO);
         });
         mentoringDTOs.forEach(mentoringDTO -> {
-            result.put("mentoring", mentoringDTO.getTitle());
+            SearchDTO searchDTO = new SearchDTO("mentoring", mentoringDTO);
+            searchDTOs.add(searchDTO);
         });
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(searchDTOs, HttpStatus.OK);
     }
 }
