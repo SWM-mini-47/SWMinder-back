@@ -10,11 +10,14 @@ import java.util.List;
 
 public interface MeetupRepository extends JpaRepository<Meetup, Long> {
 
-    @Query("select m from Meetup m where year(m.createdDate) = :year and month(m.createdDate) = :month " +
+    @Query("select m from Meetup m where cast(year(m.createdDate) as long) = :year " +
+            "and cast(month(m.createdDate) as long) = :month " +
             "order by m.createdDate desc")
     List<Meetup> findByYearAndMonth(@Param("year") Long year, @Param("month") Long month);
 
-    @Query("select m from Meetup m where year(m.createdDate) = :year and month(m.createdDate) = :month and day(m.createdDate) = :day " +
+    @Query("select m from Meetup m where cast(year(m.createdDate) as long) = :year" +
+            " and cast(month(m.createdDate) as long) = :month " +
+            "and cast(day(m.createdDate) as long) = :day " +
             "order by m.createdDate desc")
     List<Meetup> findByYearAndMonthAndDay(@Param("year") Long year, @Param("month") Long month, @Param("day") Long day);
 }
