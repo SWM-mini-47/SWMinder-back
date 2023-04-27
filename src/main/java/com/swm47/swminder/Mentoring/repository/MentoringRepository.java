@@ -14,8 +14,19 @@ public interface MentoringRepository extends CrudRepository<Mentoring, Long> {
 
     @Query("select m from Mentoring m where cast(year(m.createdDate) as long) = :year" +
             " and cast(month(m.createdDate) as long) = :month " +
+            "order by m.createdDate desc limit 4")
+    List<Mentoring> findByYearAndMonthLimit4(@Param("year") Long year, @Param("month") Long month);
+
+    @Query("select m from Mentoring m where cast(year(m.createdDate) as long) = :year" +
+            " and cast(month(m.createdDate) as long) = :month " +
             "order by m.createdDate desc")
     List<Mentoring> findByYearAndMonth(@Param("year") Long year, @Param("month") Long month);
+
+    @Query("select m from Mentoring m where cast(year(m.createdDate) as long) = :year " +
+            "and cast(month(m.createdDate) as long) = :month " +
+            "and cast(day(m.createdDate) as long) = :day " +
+            "order by m.createdDate desc limit 4")
+    List<Mentoring> findByYearAndMonthAndDayLimit4(@Param("year") Long year, @Param("month") Long month, @Param("day") Long day);
 
     @Query("select m from Mentoring m where cast(year(m.createdDate) as long) = :year " +
             "and cast(month(m.createdDate) as long) = :month " +

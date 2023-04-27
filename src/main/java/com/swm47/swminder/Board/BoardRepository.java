@@ -13,11 +13,21 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
             "and cast(month(b.createdDate) as long) = :month " +
             "order by b.createdDate desc")
     List<Board> findByYearAndMonth(@Param("year") Long year, @Param("month") Long month);
+    @Query("select b from Board b where cast(year(b.createdDate) as long) = :year " +
+            "and cast(month(b.createdDate) as long) = :month " +
+            "order by b.createdDate desc limit 4")
+    List<Board> findByYearAndMonthLimit4(@Param("year") Long year, @Param("month") Long month);
 
     @Query("select b from Board b where cast(year(b.createdDate) as long) = :year" +
             " and cast(month(b.createdDate) as long) = :month " +
             "and cast(day(b.createdDate) as long) = :day " +
             "order by b.createdDate desc")
     List<Board> findByYearAndMonthAndDay(@Param("year") Long year, @Param("month") Long month, @Param("day") Long day);
+
+    @Query("select b from Board b where cast(year(b.createdDate) as long) = :year" +
+            " and cast(month(b.createdDate) as long) = :month " +
+            "and cast(day(b.createdDate) as long) = :day " +
+            "order by b.createdDate desc limit 4")
+    List<Board> findByYearAndMonthAndDayLimit4(@Param("year") Long year, @Param("month") Long month, @Param("day") Long day);
 
 }

@@ -100,8 +100,30 @@ public class BoardService {
         return boardDTOs;
     }
 
+    public List<BoardDTO> getBoardsYearAndMonthLimit4(Long year, Long month) {
+        List<Board> boards = boardRepository.findByYearAndMonthLimit4(year, month);
+        List<BoardDTO> boardDTOs = new ArrayList<>();
+        boards.forEach(board -> {
+            BoardDTO boardDTO = board.toDTO();
+            boardDTOs.add(boardDTO);
+        });
+
+        return boardDTOs;
+    }
+
     public List<BoardDTO> getBoardsYearAndMonthAndDay(Long year, Long month, Long day) {
         List<Board> boards = boardRepository.findByYearAndMonthAndDay(year, month, day);
+        List<BoardDTO> boardDTOs = new ArrayList<>();
+        boards.forEach(board -> {
+            BoardDTO boardDTO = board.toDTO();
+            boardDTOs.add(boardDTO);
+        });
+
+        return boardDTOs;
+    }
+
+    public List<BoardDTO> getBoardsYearAndMonthAndDayLimit4(Long year, Long month, Long day) {
+        List<Board> boards = boardRepository.findByYearAndMonthAndDayLimit4(year, month, day);
         List<BoardDTO> boardDTOs = new ArrayList<>();
         boards.forEach(board -> {
             BoardDTO boardDTO = board.toDTO();

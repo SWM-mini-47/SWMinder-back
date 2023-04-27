@@ -48,6 +48,16 @@ public class MentoringService {
         return mentoringDTOs;
     }
 
+    public List<MentoringDTO> getMeetupsYearAndMonthLimit4(Long year, Long month) {
+        List<Mentoring> mentorings = mentoringRepository.findByYearAndMonthLimit4(year, month);
+        List<MentoringDTO> mentoringDTOs = new ArrayList<>();
+        mentorings.forEach(mentoring -> {
+            MentoringDTO mentoringDTO = mentoring.toDTO();
+            mentoringDTOs.add(mentoringDTO);
+        });
+
+        return mentoringDTOs;
+    }
     public List<MentoringDTO> getMeetupsYearAndMonthAndDay(Long year, Long month, Long day) {
         List<Mentoring> mentorings = mentoringRepository.findByYearAndMonthAndDay(year, month, day);
         List<MentoringDTO> mentoringDTOs = new ArrayList<>();
@@ -58,7 +68,17 @@ public class MentoringService {
 
         return mentoringDTOs;
     }
-        
+
+    public List<MentoringDTO> getMeetupsYearAndMonthAndDayLimit4(Long year, Long month, Long day) {
+        List<Mentoring> mentorings = mentoringRepository.findByYearAndMonthAndDayLimit4(year, month, day);
+        List<MentoringDTO> mentoringDTOs = new ArrayList<>();
+        mentorings.forEach(mentoring -> {
+            MentoringDTO mentoringDTO = mentoring.toDTO();
+            mentoringDTOs.add(mentoringDTO);
+        });
+
+        return mentoringDTOs;
+    }
     public List<Mentoring> findAll() {
         return (List<Mentoring>) mentoringRepository.findAll();
     }

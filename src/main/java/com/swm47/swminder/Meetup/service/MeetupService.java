@@ -47,9 +47,18 @@ public class MeetupService {
         meetup.updateMeetup(meetupDTO.getTitle(), meetupDTO.getCategory(),
                 meetupDTO.getAuthor(), meetupDTO.getStartTime(), meetupDTO.getEndTime());
     }
-
     public List<MeetupDTO> getMeetupsYearAndMonth(Long year, Long month) {
         List<Meetup> meetups = meetupRepository.findByYearAndMonth(year, month);
+        List<MeetupDTO> meetupDTOs = new ArrayList<>();
+        meetups.forEach(meetup -> {
+            MeetupDTO meetupDTO = meetup.toDTO();
+            meetupDTOs.add(meetupDTO);
+        });
+
+        return meetupDTOs;
+    }
+    public List<MeetupDTO> getMeetupsYearAndMonthLimit4(Long year, Long month) {
+        List<Meetup> meetups = meetupRepository.findByYearAndMonthLimit4(year, month);
         List<MeetupDTO> meetupDTOs = new ArrayList<>();
         meetups.forEach(meetup -> {
             MeetupDTO meetupDTO = meetup.toDTO();
@@ -61,6 +70,16 @@ public class MeetupService {
 
     public List<MeetupDTO> getMeetupsYearAndMonthAndDay(Long year, Long month, Long day) {
         List<Meetup> meetups = meetupRepository.findByYearAndMonthAndDay(year, month, day);
+        List<MeetupDTO> meetupDTOs = new ArrayList<>();
+        meetups.forEach(meetup -> {
+            MeetupDTO meetupDTO = meetup.toDTO();
+            meetupDTOs.add(meetupDTO);
+        });
+
+        return meetupDTOs;
+    }
+    public List<MeetupDTO> getMeetupsYearAndMonthAndDayLimit4(Long year, Long month, Long day) {
+        List<Meetup> meetups = meetupRepository.findByYearAndMonthAndDayLimit4(year, month, day);
         List<MeetupDTO> meetupDTOs = new ArrayList<>();
         meetups.forEach(meetup -> {
             MeetupDTO meetupDTO = meetup.toDTO();
