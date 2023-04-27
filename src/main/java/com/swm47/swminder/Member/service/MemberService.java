@@ -40,7 +40,16 @@ public class MemberService {
         Member member = result.get();
         return member.toDTO();
     }
-
+    public MemberDTO findMemberById(Long memberId) {
+        Optional<Member> result = memberRepository.findById(memberId);
+        Member member = result.get();
+        return member.toDTO();
+    }
+    public MemberDTO findMemberByLoginId(String loginId) {
+        Optional<Member> result = memberRepository.findByLoginId(loginId);
+        Member member = result.get();
+        return member.toDTO();
+    }
     public Long joinMentoring(Long memberId, Long mentoringId) {
         Mentoring mentoring = mentoringRepository.findById(mentoringId).orElseThrow(() -> new RuntimeException("invalid mentoringId"));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("invalid memberId"));

@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,5 +31,10 @@ public class LoginController {
     public ResponseEntity<Long> signUp(@RequestBody MemberDTO memberDTO) {
         Long memberId = memberService.saveMember(memberDTO);
         return new ResponseEntity<>(memberId, HttpStatus.OK);
+    }
+
+    @GetMapping("/loginSuccess")
+    public ResponseEntity<Long> loginSuccess() {
+        return ResponseEntity.ok(memberService.findMember().getMemberId());
     }
 }

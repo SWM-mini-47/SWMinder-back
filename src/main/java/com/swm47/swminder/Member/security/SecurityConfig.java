@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated() // 그 외 모든 리소스를 의미하며 인증 필요
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/home", true)
+                .defaultSuccessUrl("/loginSuccess", true)
                 .permitAll()
                 .loginPage("/login") // 기본 로그인 페이지
                 .usernameParameter("loginId")
