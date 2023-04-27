@@ -8,6 +8,8 @@ import com.swm47.swminder.Member.entity.Member;
 import com.swm47.swminder.Member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -101,7 +103,8 @@ public class BoardService {
     }
 
     public List<BoardDTO> getBoardsYearAndMonthLimit4(Long year, Long month) {
-        List<Board> boards = boardRepository.findByYearAndMonthLimit4(year, month);
+        Pageable pageable = PageRequest.of(0, 4);
+        List<Board> boards = boardRepository.findByYearAndMonthLimit4(year, month, pageable);
         List<BoardDTO> boardDTOs = new ArrayList<>();
         boards.forEach(board -> {
             BoardDTO boardDTO = board.toDTO();
@@ -123,7 +126,8 @@ public class BoardService {
     }
 
     public List<BoardDTO> getBoardsYearAndMonthAndDayLimit4(Long year, Long month, Long day) {
-        List<Board> boards = boardRepository.findByYearAndMonthAndDayLimit4(year, month, day);
+        Pageable pageable = PageRequest.of(0, 4);
+        List<Board> boards = boardRepository.findByYearAndMonthAndDayLimit4(year, month, day, pageable);
         List<BoardDTO> boardDTOs = new ArrayList<>();
         boards.forEach(board -> {
             BoardDTO boardDTO = board.toDTO();

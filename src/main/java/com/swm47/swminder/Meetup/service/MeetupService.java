@@ -9,6 +9,8 @@ import com.swm47.swminder.Meetup.entity.Meetup;
 import com.swm47.swminder.Meetup.entity.MeetupDTO;
 import com.swm47.swminder.Meetup.repository.MeetupRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -58,7 +60,8 @@ public class MeetupService {
         return meetupDTOs;
     }
     public List<MeetupDTO> getMeetupsYearAndMonthLimit4(Long year, Long month) {
-        List<Meetup> meetups = meetupRepository.findByYearAndMonthLimit4(year, month);
+        Pageable pageable = PageRequest.of(0, 4);
+        List<Meetup> meetups = meetupRepository.findByYearAndMonthLimit4(year, month, pageable);
         List<MeetupDTO> meetupDTOs = new ArrayList<>();
         meetups.forEach(meetup -> {
             MeetupDTO meetupDTO = meetup.toDTO();
@@ -79,7 +82,8 @@ public class MeetupService {
         return meetupDTOs;
     }
     public List<MeetupDTO> getMeetupsYearAndMonthAndDayLimit4(Long year, Long month, Long day) {
-        List<Meetup> meetups = meetupRepository.findByYearAndMonthAndDayLimit4(year, month, day);
+        Pageable pageable = PageRequest.of(0, 4);
+        List<Meetup> meetups = meetupRepository.findByYearAndMonthAndDayLimit4(year, month, day, pageable);
         List<MeetupDTO> meetupDTOs = new ArrayList<>();
         meetups.forEach(meetup -> {
             MeetupDTO meetupDTO = meetup.toDTO();

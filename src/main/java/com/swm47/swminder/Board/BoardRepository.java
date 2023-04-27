@@ -1,6 +1,7 @@
 package com.swm47.swminder.Board;
 
 import com.swm47.swminder.Board.entity.Board;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,8 +16,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findByYearAndMonth(@Param("year") Long year, @Param("month") Long month);
     @Query("select b from Board b where cast(year(b.createdDate) as long) = :year " +
             "and cast(month(b.createdDate) as long) = :month " +
-            "order by b.createdDate desc limit 4")
-    List<Board> findByYearAndMonthLimit4(@Param("year") Long year, @Param("month") Long month);
+            "order by b.createdDate desc")
+    List<Board> findByYearAndMonthLimit4(@Param("year") Long year, @Param("month") Long month, Pageable pageable);
 
     @Query("select b from Board b where cast(year(b.createdDate) as long) = :year" +
             " and cast(month(b.createdDate) as long) = :month " +
@@ -27,7 +28,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("select b from Board b where cast(year(b.createdDate) as long) = :year" +
             " and cast(month(b.createdDate) as long) = :month " +
             "and cast(day(b.createdDate) as long) = :day " +
-            "order by b.createdDate desc limit 4")
-    List<Board> findByYearAndMonthAndDayLimit4(@Param("year") Long year, @Param("month") Long month, @Param("day") Long day);
+            "order by b.createdDate desc")
+    List<Board> findByYearAndMonthAndDayLimit4(@Param("year") Long year, @Param("month") Long month, @Param("day") Long day,
+                                               Pageable pageable);
 
 }

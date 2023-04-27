@@ -7,6 +7,8 @@ import com.swm47.swminder.Mentoring.entity.MentoringDTO;
 import com.swm47.swminder.Mentoring.repository.MentoringRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +51,8 @@ public class MentoringService {
     }
 
     public List<MentoringDTO> getMeetupsYearAndMonthLimit4(Long year, Long month) {
-        List<Mentoring> mentorings = mentoringRepository.findByYearAndMonthLimit4(year, month);
+        Pageable pageable = PageRequest.of(0, 4);
+        List<Mentoring> mentorings = mentoringRepository.findByYearAndMonthLimit4(year, month, pageable);
         List<MentoringDTO> mentoringDTOs = new ArrayList<>();
         mentorings.forEach(mentoring -> {
             MentoringDTO mentoringDTO = mentoring.toDTO();
@@ -70,7 +73,8 @@ public class MentoringService {
     }
 
     public List<MentoringDTO> getMeetupsYearAndMonthAndDayLimit4(Long year, Long month, Long day) {
-        List<Mentoring> mentorings = mentoringRepository.findByYearAndMonthAndDayLimit4(year, month, day);
+        Pageable pageable = PageRequest.of(0, 4);
+        List<Mentoring> mentorings = mentoringRepository.findByYearAndMonthAndDayLimit4(year, month, day, pageable);
         List<MentoringDTO> mentoringDTOs = new ArrayList<>();
         mentorings.forEach(mentoring -> {
             MentoringDTO mentoringDTO = mentoring.toDTO();

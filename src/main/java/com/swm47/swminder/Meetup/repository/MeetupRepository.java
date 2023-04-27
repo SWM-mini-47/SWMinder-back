@@ -2,6 +2,7 @@ package com.swm47.swminder.Meetup.repository;
 
 import com.swm47.swminder.Board.entity.Board;
 import com.swm47.swminder.Meetup.entity.Meetup;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,8 +17,8 @@ public interface MeetupRepository extends JpaRepository<Meetup, Long> {
     List<Meetup> findByYearAndMonth(@Param("year") Long year, @Param("month") Long month);
     @Query("select m from Meetup m where cast(year(m.createdDate) as long) = :year " +
             "and cast(month(m.createdDate) as long) = :month " +
-            "order by m.createdDate desc limit 4")
-    List<Meetup> findByYearAndMonthLimit4(@Param("year") Long year, @Param("month") Long month);
+            "order by m.createdDate desc")
+    List<Meetup> findByYearAndMonthLimit4(@Param("year") Long year, @Param("month") Long month, Pageable pageable);
 
 
     @Query("select m from Meetup m where cast(year(m.createdDate) as long) = :year" +
@@ -29,7 +30,7 @@ public interface MeetupRepository extends JpaRepository<Meetup, Long> {
     @Query("select m from Meetup m where cast(year(m.createdDate) as long) = :year" +
             " and cast(month(m.createdDate) as long) = :month " +
             "and cast(day(m.createdDate) as long) = :day " +
-            "order by m.createdDate desc limit 4")
+            "order by m.createdDate desc")
     List<Meetup> findByYearAndMonthAndDayLimit4(@Param("year") Long year, @Param("month") Long month,
-                                          @Param("day") Long day);
+                                          @Param("day") Long day, Pageable pageable);
 }
