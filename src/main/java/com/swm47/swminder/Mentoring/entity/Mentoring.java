@@ -52,6 +52,8 @@ public class Mentoring {
                 .endTime(endTime)
                 .applyStartTime(applyStartTime)
                 .applyEndTime(applyEndTime)
+                .joinCount(joinCount)
+                .limitCount(limitCount)
                 .build();
     }
     public void overwrite(Mentoring mentoring) {
