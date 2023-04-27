@@ -31,23 +31,23 @@ public class searchController {
     private final MentoringService mentoringService;
 
     @GetMapping("/{year}/{month}")
-    public ResponseEntity<SearchDTO> getBoardDTO(@PathVariable("year") Long year,
+    public ResponseEntity<SearchDetailDTO> getBoardDTO(@PathVariable("year") Long year,
                                                        @PathVariable("month") Long month) {
-        SearchDTO searchDTO = new SearchDTO();
+        SearchDetailDTO searchDetailDTO = new SearchDetailDTO();
         List<BoardDTO> boardDTOs = boardService.getBoardsYearAndMonthLimit4(year, month);
         List<MeetupDTO> meetupDTOs = meetupService.getMeetupsYearAndMonthLimit4(year, month);
         List<MentoringDTO> mentoringDTOs = mentoringService.getMeetupsYearAndMonthLimit4(year, month);
         boardDTOs.forEach(boardDTO -> {
-            searchDTO.board.add(boardDTO.getTitle());
+            searchDetailDTO.board.add(boardDTO);
         });
         meetupDTOs.forEach(meetupDTO -> {
-            searchDTO.meetup.add(meetupDTO.getTitle());
+            searchDetailDTO.meetup.add(meetupDTO);
         });
         mentoringDTOs.forEach(mentoringDTO -> {
-            searchDTO.mentoring.add(mentoringDTO.getTitle());
+            searchDetailDTO.mentoring.add(mentoringDTO);
         });
 
-        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
+        return new ResponseEntity<>(searchDetailDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{year}/{month}/{day}")
